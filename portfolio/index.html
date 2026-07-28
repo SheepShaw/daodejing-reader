@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>肖洋 Shaw | 品牌营销作品集</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: -apple-system, "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    background: #FAF8F5;
+    color: #3D3A38;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ===== Hero 分栏区域（核心） ===== */
+  .hero {
+    display: flex;
+    min-height: calc(100vh - 52px);
+    overflow: hidden;
+  }
+
+  /* 左侧：文字区 */
+  .hero-left {
+    flex: 1 1 56%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 72px 56px;
+    background: #FAF8F5;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* 右侧：照片区 */
+  .hero-right {
+    flex: 0 0 44%;
+    position: relative;
+    overflow: hidden;
+    background: #E8E2DA;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  /* ===== 标签行 ===== */
+  .tag-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 6px;
+    border: 1.5px solid #DDD5CB;
+    background: #FFFDFB;
+    color: #7D7068;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+
+    /* ===== 能力胶囊（CTA上方） ===== */
+    .skills-caption {
+      font-size: 12px;
+      color: #9B9088;
+      letter-spacing: 1.5px;
+      margin: 6px 0 12px;
+    }
+    .skills-row {
+      margin: 0 0 4px;
+      max-width: 560px;
+    }
+    .skills-row .pill {
+      font-size: 12.5px;
+      padding: 5px 14px;
+    }
+
+  /* ===== 大标题 ===== */
+  .headline {
+    font-size: 40px;
+    font-weight: 800;
+    color: #2D2A28;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    margin-bottom: 28px;
+    max-width: 560px;
+  }
+
+  .headline-line-1 { display: block; }
+  .headline-line-2 { display: block; color: #2D2A28; }
+  .headline-line-3 {
+    display: block;
+    font-size: 22px;
+    font-weight: 500;
+    color: #8B7B6C;
+    margin-top: 14px;
+    letter-spacing: 0;
+  }
+  .headline-divider {
+    width: 40px;
+    height: 2px;
+    background: #C4A882;
+    margin-top: 14px;
+    border-radius: 1px;
+  }
+
+  /* ===== 描述段落 ===== */
+  .description {
+    font-size: 16px;
+    color: #6B635A;
+    line-height: 1.85;
+    max-width: 560px;
+    margin-bottom: 12px;
+  }
+
+  .desc-problem {
+    font-weight: 600;
+    color: #4A4440;
+    margin-bottom: 0;
+    font-size: 17px;
+  }
+
+  .desc-body {
+    margin-bottom: 20px;
+  }
+
+  .desc-golden {
+    font-weight: 600;
+    color: #6B5E54;
+    font-size: 15px;
+    padding: 14px 18px;
+    background: rgba(196, 168, 130, 0.08);
+    border-left: 3px solid #C4A882;
+    border-radius: 0 8px 8px 0;
+    margin-top: 4px;
+  }
+
+  /* 分隔 */
+  .micro-divider {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, #C4A882, transparent);
+    margin: 10px 0 16px;
+    border-radius: 1px;
+  }
+
+  /* ===== 按钮 ===== */
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-primary {
+    background: #C4A882;
+    color: #FFF;
+    border: none;
+    box-shadow: 0 2px 12px rgba(196, 168, 130, 0.3);
+  }
+  .btn-primary:hover {
+    background: #B89A72;
+    box-shadow: 0 4px 18px rgba(196, 168, 130, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: #6B5E54;
+    border: 1.5px solid #C9BCAE;
+  }
+  .btn-secondary:hover {
+    background: rgba(196, 168, 130, 0.06);
+    border-color: #C4A882;
+  }
+
+  .btn-arrow {
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+  .btn:hover .btn-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ===== 底部联系方式条 ===== */
+  .contact-strip {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 14px 24px;
+    background: rgba(250, 248, 245, 0.92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #EEE9E3;
+    z-index: 10;
+    font-size: 13px;
+    color: #8A7F75;
+  }
+
+  .contact-strip span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .contact-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .dot-phone { background: #C4A882; }
+  .dot-mail { background: #A3B8CC; }
+  .dot-city { background: #B8C4B0; }
+
+  /* 给底部留空间 */
+  body {
+    padding-bottom: 52px;
+  }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 900px) {
+    .hero {
+      flex-direction: column;
+      min-height: auto;
+      max-height: none;
+    }
+    .hero-left {
+      padding: 48px 32px 36px;
+      flex: none;
+    }
+    .hero-right {
+      flex: none;
+      height: 420px;
+      order: -1; /* 照片在上 */
+    }
+    .headline {
+      font-size: 32px;
+    }
+    .headline-line-3 {
+      font-size: 20px;
+    }
+    .description {
+      font-size: 15px;
+    }
+    .cta-row {
+      margin-top: 24px;
+    }
+    .contact-strip {
+      position: relative;
+      bottom: auto;
+      margin-top: 24px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    body {
+      padding-bottom: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-left {
+      padding: 36px 20px 28px;
+    }
+    .headline {
+      font-size: 26px;
+    }
+    .headline-line-3 {
+      font-size: 18px;
+    }
+    .tag-row {
+      margin-bottom: 20px;
+    }
+    .pill {
+      padding: 4px 12px;
+      font-size: 12px;
+    }
+    .hero-right {
+      height: 320px;
+    }
+    .brand-banner {
+      height: 88px;
+    }
+    .brand-logo--lead { height: 60px; }
+    .brand-logo--xl { height: 38px; }
+    .brand-logo--xs { height: 18px; }
+    .brand-logo--mini { height: 22px; }
+    .cta-row {
+      flex-direction: column;
+    }
+    .btn {
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  /* ===== 合作品牌滚动 banner ===== */
+  .brand-banner {
+    background: linear-gradient(90deg, #8B7355 0%, #5C4A3A 35%, #2D2824 65%, #181614 100%);
+    height: 100px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .brand-marquee {
+    width: 100%;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 10%, #000 90%, transparent 100%);
+  }
+  .brand-track {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    width: max-content;
+    padding-left: 44px;
+    animation: brandScroll 38s linear infinite;
+  }
+  .brand-logo {
+    height: 36px;
+    width: auto;
+    /* 深色背景 → LOGO 反白 */
+    filter: brightness(0) invert(1);
+    opacity: 0.82;
+    transition: opacity 0.3s;
+  }
+  .brand-logo:hover {
+    opacity: 1;
+  }
+  /* 主 LOGO（伊菲丹）放大突出 */
+  .brand-logo--lead {
+    height: 78px;
+    opacity: 1;
+    filter: brightness(0) invert(1);
+  }
+  /* 重点国际品牌（KIKO / ZELENS） */
+  .brand-logo--xl {
+    height: 48px;
+    opacity: 0.95;
+    filter: brightness(0) invert(1);
+  }
+  /* 次级放大 LOGO（璞祺艺境） */
+  .brand-logo--lg,
+  .brand-logo--sm {
+    height: 36px;
+    opacity: 0.92;
+    filter: brightness(0) invert(1);
+  }
+  /* 缩小的 LOGO（blankme，明显低调） */
+  .brand-logo--xs {
+    height: 22px;
+    opacity: 0.78;
+    filter: brightness(0) invert(1);
+  }
+  /* 小型 LOGO（LUMENE / BeauEver） */
+  .brand-logo--mini {
+    height: 28px;
+    opacity: 0.85;
+    filter: brightness(0) invert(1);
+  }
+  @keyframes brandScroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ===== 模块②：履历优势 · 六维雷达（满屏 + 常驻文案） ===== */
+  .module {
+    max-width: 1320px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 56px;
+    box-sizing: border-box;
+  }
+  /* 三栏：左列维度卡 / 中间雷达 / 右列维度卡 */
+  .radar-layout {
+    display: grid;
+    grid-template-columns: 1fr 460px 1fr;
+    gap: 44px;
+    align-items: center;
+  }
+  .radar-col {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  /* 维度常驻卡：小标题（标题）+ 长文案（标题附近） */
+  .dim-card {
+    background: #FFFDFB;
+    border: 1px solid #EDE7E0;
+    border-left: 3px solid #C4A882;
+    border-radius: 12px;
+    padding: 17px 22px;
+    cursor: default;
+    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+  }
+  .dim-card.is-active {
+    box-shadow: 0 12px 32px rgba(196, 168, 130, 0.18);
+    transform: translateY(-2px);
+    border-left-color: #B8946E;
+  }
+  .dim-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2D2A28;
+    margin-bottom: 7px;
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+  .dim-card-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #C4A882;
+    flex: 0 0 auto;
+  }
+  .dim-card-desc {
+    font-size: 13.5px;
+    line-height: 1.82;
+    color: #6B635A;
+    letter-spacing: 0.2px;
+  }
+  /* 中间雷达 */
+  .radar-center { display: flex; justify-content: center; }
+  .radar-card {
+    background: #FFFDFB;
+    border: 1px solid #EDE7E0;
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 12px 40px rgba(61, 58, 56, 0.06);
+    width: 100%;
+  }
+  .radar-card svg { width: 100%; height: auto; display: block; }
+  .radar-card .dim-label { transition: fill .15s ease; }
+  .radar-card .dim-label:hover,
+  .radar-card .dim-label:focus { fill: #C4A882; outline: none; }
+  .radar-card .dim-point { cursor: pointer; }
+
+  @media (max-width: 1080px) {
+    .module { padding: 56px 40px; }
+    .radar-layout { grid-template-columns: 1fr 400px 1fr; gap: 28px; }
+  }
+  @media (max-width: 900px) {
+    .module { min-height: auto; padding: 56px 32px 64px; }
+    .radar-layout { grid-template-columns: 1fr; gap: 26px; }
+    .radar-center { order: -1; }
+    .radar-card { max-width: 440px; margin: 0 auto; }
+    .dim-card-desc { font-size: 14px; line-height: 1.85; }
+  }
+  @media (max-width: 480px) {
+    .module { padding: 44px 20px 52px; }
+    .radar-card { padding: 18px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero 分栏 -->
+<div class="hero">
+
+  <!-- 左侧：文字 -->
+  <div class="hero-left">
+
+    <!-- 顶部标签 -->
+    <!-- 大标题 -->
+    <h1 class="headline">
+      <span class="headline-line-1">8年品牌营销，</span>
+      <span class="headline-line-2">专注爆品孵化</span>
+      <span class="headline-divider"></span>
+      <span class="headline-line-3">帮助品牌实现高效增长</span>
+    </h1>
+
+    <!-- 描述 -->
+    <div class="description">
+      <p class="desc-problem">新品没声量？种草没水花？有GMV却没利润？</p>
+
+      <div class="micro-divider"></div>
+
+      <p class="desc-body">
+        我的解决方法是：以品牌调性为基石，深挖产品USP，把品牌想说的话翻成消费者听得懂的表达，
+        打通内容种草和转化的增长链路，每一步都用数据验证。让品牌每次发声都在攒品牌资产，
+        帮品牌快速占领消费者心智。
+      </p>
+
+      <p class="desc-golden">
+        我坚持一点：每个营销动作，出发点就是解决品牌当下真实的问题。<br>
+        不造空中楼阁，只做能落地的品牌增长。
+      </p>
+    </div>
+
+    <!-- 能力胶囊 -->
+    <div class="skills-caption">核心能力</div>
+    <div class="tag-row skills-row">
+      <span class="pill">品牌增长</span>
+      <span class="pill">海外品牌中国化再定位</span>
+      <span class="pill">爆品孵化</span>
+      <span class="pill">KFS</span>
+      <span class="pill">媒介策略</span>
+      <span class="pill">明星合作</span>
+      <span class="pill">社媒全平台种草</span>
+      <span class="pill">整合营销全案</span>
+      <span class="pill">AIGC内容增长</span>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-row">
+      <a href="#brands" class="btn btn-primary">
+        查看代表案例
+        <span class="btn-arrow">&rsaquo;</span>
+      </a>
+      <a href="#brands" class="btn btn-secondary">
+        了解职业经历
+      </a>
+    </div>
+  </div>
+
+  <!-- 右侧：大图 -->
+  <div class="hero-right">
+    <img src="photo.png" alt="肖洋 Shaw" class="hero-photo">
+  </div>
+
+</div>
+
+<!-- 合作品牌滚动 banner -->
+<section class="brand-banner" id="brands">
+  <div class="brand-marquee">
+    <div class="brand-track">
+      <!-- 第一组 -->
+      <img class="brand-logo brand-logo--lead" src="logos/evidens.png" alt="EviDenS de Beauté 伊菲丹">
+      <img class="brand-logo brand-logo--xs" src="logos/blankme.png" alt="blankme 半分一">
+      <img class="brand-logo" src="logos/undr.png" alt="undr">
+      <img class="brand-logo brand-logo--xl" src="logos/kiko.png" alt="KIKO MILANO">
+      <img class="brand-logo brand-logo--xl" src="logos/zelens.png" alt="ZELENS">
+      <img class="brand-logo brand-logo--mini" src="logos/lumene.png" alt="LUMENE">
+      <img class="brand-logo brand-logo--sm" src="logos/unifon.png" alt="御泥坊 UNIFON">
+      <img class="brand-logo" src="logos/gossip.png" alt="GLOSSIP">
+      <img class="brand-logo brand-logo--mini" src="logos/beauever.png" alt="BeauEver">
+      <img class="brand-logo brand-logo--lg" src="logos/puqi.png" alt="璞祺艺境 × 七寸九">
+      <!-- 复制一组，实现无缝循环 -->
+      <img class="brand-logo brand-logo--lead" src="logos/evidens.png" alt="EviDenS de Beauté 伊菲丹">
+      <img class="brand-logo brand-logo--xs" src="logos/blankme.png" alt="blankme 半分一">
+      <img class="brand-logo" src="logos/undr.png" alt="undr">
+      <img class="brand-logo brand-logo--xl" src="logos/kiko.png" alt="KIKO MILANO">
+      <img class="brand-logo brand-logo--xl" src="logos/zelens.png" alt="ZELENS">
+      <img class="brand-logo brand-logo--mini" src="logos/lumene.png" alt="LUMENE">
+      <img class="brand-logo brand-logo--sm" src="logos/unifon.png" alt="御泥坊 UNIFON">
+      <img class="brand-logo" src="logos/gossip.png" alt="GLOSSIP">
+      <img class="brand-logo brand-logo--mini" src="logos/beauever.png" alt="BeauEver">
+      <img class="brand-logo brand-logo--lg" src="logos/puqi.png" alt="璞祺艺境 × 七寸九">
+    </div>
+  </div>
+</section>
+
+<!-- 模块②：履历优势 · 六维雷达（满屏 + 常驻文案） -->
+<section class="module" id="strengths">
+  <div class="radar-layout">
+
+    <!-- 左列：媒介策略 / 内容营销 / 创业经验 -->
+    <div class="radar-col radar-col--left">
+      <div class="dim-card" data-dim="media">
+        <div class="dim-card-title">媒介策略</div>
+        <div class="dim-card-desc">精通蒲公英/聚光/星图与 KFS 体系，千万级预算操盘，CPM/ROI 优化（曾把 CPM 压到行业均值 1/10）。</div>
+      </div>
+      <div class="dim-card" data-dim="content">
+        <div class="dim-card-title">内容营销</div>
+        <div class="dim-card-desc">抖音/小红书/B站/双微全平台种草，KOL/KOC 种草全链路，投放总额过千万，擅长爆文与话题打造。</div>
+      </div>
+      <div class="dim-card" data-dim="startup">
+        <div class="dim-card-title">创业经验</div>
+        <div class="dim-card-desc">国内首个先锋男士个护品牌 undr 创始团队核心成员，完整经历品牌从 0 到 1；2026 年联合创办化妆品公司，并以自由职业身份持续为多个美妆/快消品牌提供策略到执行的全案服务。</div>
+      </div>
+    </div>
+
+    <!-- 中间：雷达图 -->
+    <div class="radar-center">
+      <div class="radar-card">
+        <svg viewBox="0 0 480 440" role="img" aria-label="六维能力雷达图">
+          <!-- 网格环 -->
+          <polygon points="240,62 368.2,136 368.2,284 240,358 111.8,284 111.8,136" fill="none" stroke="#E3DACB" stroke-width="1"/>
+          <polygon points="240,99 336.1,154.5 336.1,265.5 240,321 143.9,265.5 143.9,154.5" fill="none" stroke="#E9E2D4" stroke-width="1"/>
+          <polygon points="240,136 304.1,173 304.1,247 240,284 175.9,247 175.9,173" fill="none" stroke="#E9E2D4" stroke-width="1"/>
+          <polygon points="240,173 272,191.5 272,228.5 240,247 208,228.5 208,191.5" fill="none" stroke="#E9E2D4" stroke-width="1"/>
+
+          <!-- 轴线 -->
+          <g stroke="#DDD5CB" stroke-width="1">
+            <line x1="240" y1="210" x2="240" y2="62"/>
+            <line x1="240" y1="210" x2="368.2" y2="136"/>
+            <line x1="240" y1="210" x2="368.2" y2="284"/>
+            <line x1="240" y1="210" x2="240" y2="358"/>
+            <line x1="240" y1="210" x2="111.8" y2="284"/>
+            <line x1="240" y1="210" x2="111.8" y2="136"/>
+          </g>
+
+          <!-- 数据多边形（陶土半透明填充） -->
+          <polygon points="240,76.8 345.1,149.3 361.7,280.3 240,346.2 127.2,275.1 124.7,143.4"
+                   fill="#C4A882" fill-opacity="0.18"
+                   stroke="#C4A882" stroke-width="2.5" stroke-linejoin="round"/>
+
+          <!-- 数据点 -->
+          <g fill="#C4A882" stroke="#FFFDFB" stroke-width="1.5">
+            <circle class="dim-point" data-dim="startup"  cx="240"   cy="76.8"  r="5"/>
+            <circle class="dim-point" data-dim="pr"       cx="345.1" cy="149.3" r="5"/>
+            <circle class="dim-point" data-dim="brand"    cx="361.7" cy="280.3" r="5"/>
+            <circle class="dim-point" data-dim="hit"      cx="240"   cy="346.2" r="5"/>
+            <circle class="dim-point" data-dim="content"  cx="127.2" cy="275.1" r="5"/>
+            <circle class="dim-point" data-dim="media"    cx="124.7" cy="143.4" r="5"/>
+          </g>
+
+          <!-- 维度标签（hover 联动对应卡片高亮） -->
+          <g font-family="-apple-system, 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif" font-size="14" font-weight="600" fill="#3D3A38">
+            <text class="dim-label" data-dim="startup" x="240"   y="34"  text-anchor="middle">创业经验</text>
+            <text class="dim-label" data-dim="pr"      x="394.1" y="121" text-anchor="start">舆情公关</text>
+            <text class="dim-label" data-dim="brand"   x="394.1" y="303" text-anchor="start">品牌策划</text>
+            <text class="dim-label" data-dim="hit"     x="240"   y="392" text-anchor="middle">爆品孵化</text>
+            <text class="dim-label" data-dim="content" x="85.9"  y="303" text-anchor="end">内容营销</text>
+            <text class="dim-label" data-dim="media"   x="85.9"  y="121" text-anchor="end">媒介策略</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 右列：舆情公关 / 品牌策划 / 爆品孵化 -->
+    <div class="radar-col radar-col--right">
+      <div class="dim-card" data-dim="pr">
+        <div class="dim-card-title">舆情公关</div>
+        <div class="dim-card-desc">多年品牌舆情监测与声誉管理经验，妥善处理重大负面舆情十余起，建立危机公关响应机制与舆情研判流程。</div>
+      </div>
+      <div class="dim-card" data-dim="brand">
+        <div class="dim-card-title">品牌策划</div>
+        <div class="dim-card-desc">8 年品牌市场营销，擅长品牌定位、全年营销规划与整合营销全案，对品牌/产品/市场/渠道/运营有系统化独到见解。</div>
+      </div>
+      <div class="dim-card" data-dim="hit">
+        <div class="dim-card-title">爆品孵化</div>
+        <div class="dim-card-desc">独创爆品孵化方法论，一年内从 0 到 1 打造年销 3000 万+ 爆品（伊菲丹精华防晒），归纳爆品打造全流程方法论。</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 底部联系条 -->
+<div class="contact-strip">
+  <span><span class="contact-dot dot-phone"></span>18178314007</span>
+  <span><span class="contact-dot dot-mail"></span>wenyou1995@163.com</span>
+  <span><span class="contact-dot dot-city"></span>上海 &middot; 随时到岗</span>
+</div>
+
+<script>
+(function(){
+  // 维度卡 ↔ 雷达标签 双向联动高亮（长文案已常驻在卡片内，无需浮窗）
+  const cards  = Array.from(document.querySelectorAll('.dim-card'));
+  const labels = Array.from(document.querySelectorAll('.dim-label, .dim-point'));
+  if (!cards.length) return;
+
+  function setActive(dim) {
+    cards.forEach(c => c.classList.toggle('is-active', c.dataset.dim === dim));
+  }
+
+  cards.forEach(card => {
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('mouseenter', () => setActive(card.dataset.dim));
+    card.addEventListener('mouseleave', () => setActive(null));
+    card.addEventListener('focus',      () => setActive(card.dataset.dim));
+    card.addEventListener('blur',       () => setActive(null));
+  });
+
+  labels.forEach(l => {
+    l.addEventListener('mouseenter', () => setActive(l.dataset.dim));
+    l.addEventListener('mouseleave', () => setActive(null));
+  });
+})();
+</script>
+
+</body>
+</html>
