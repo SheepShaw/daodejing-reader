@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#5FB589">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="动物塑人格测试">
+  <title>动物塑人格测试</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    :root {
+      --primary: #5FB589;
+      --primary-dark: #3E8E66;
+      --primary-light: #A4DCC0;
+      --bg: #ECF5EF;
+      --card: #FFFFFF;
+      --text: #35463D;
+      --text-light: #6B8479;
+      --text-muted: #A4BBAE;
+      --border: #DBEBE1;
+      --shadow: 0 4px 20px rgba(63, 143, 102, 0.10);
+      --radius: 18px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    #app {
+      min-height: 100%;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .header {
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 16px calc(12px + env(safe-area-inset-top));
+      padding-top: calc(12px + env(safe-area-inset-top));
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .header .back {
+      position: absolute;
+      left: 12px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background .2s;
+    }
+
+    .header .back:active {
+      background: rgba(255,255,255,.15);
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn .3s ease;
+      padding: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Home */
+    .hero {
+      background: linear-gradient(135deg, #D9F0E2 0%, #ECF5EF 100%);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .hero-animals {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 16px;
+      font-size: 28px;
+      opacity: .55;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 20px 0 12px;
+      text-align: center;
+    }
+
+    .mode-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .mode-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .mode-card.single {
+      max-width: 280px;
+      margin: 0 auto 20px;
+    }
+
+    .mode-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #EAF6EF;
+      color: var(--primary-dark);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+
+    .mode-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .mode-meta {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: 24px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .1s, opacity .2s;
+    }
+
+    .btn:active {
+      transform: scale(.98);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(95, 181, 137, .35);
+    }
+
+    .btn-secondary {
+      background: #E7F4EC;
+      color: var(--primary-dark);
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .collection-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .collection-header {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .collection-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .collection-item {
+      background: #F1FAF5;
+      border-radius: var(--radius-sm);
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      border: 1px solid transparent;
+    }
+
+    .collection-item:active {
+      transform: scale(.96);
+      background: #E7F5ED;
+      border-color: var(--primary-light);
+    }
+
+    @media (hover: hover) {
+      .collection-item:hover {
+        background: #E7F5ED;
+        border-color: var(--primary-light);
+      }
+    }
+
+    .collection-item .emoji {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .collection-item .name {
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .see-all {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    /* Collection page */
+    .collection-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 14px;
+      margin-top: -8px;
+      margin-bottom: 16px;
+    }
+
+    .collection-page-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .collection-page-item {
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      padding: 14px 6px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+    }
+
+    .collection-page-item .emoji {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .collection-page-item .name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Quiz */
+    .quiz-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      background: #E4F1EA;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 3px;
+      transition: width .3s ease;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      color: var(--text-light);
+      min-width: 42px;
+      text-align: right;
+    }
+
+    .question-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .question-number {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .question-text {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option {
+      background: #F1FAF5;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all .15s;
+      text-align: left;
+      color: var(--text);
+    }
+
+    .option:active {
+      transform: scale(.99);
+    }
+
+    .option.selected, .option:active {
+      background: #E7F5ED;
+      border-color: var(--primary-light);
+    }
+
+    @media (hover: hover) {
+      .option:hover {
+        background: #E7F5ED;
+        border-color: var(--primary-light);
+      }
+    }
+
+    .quiz-nav {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .quiz-nav .btn-outline {
+      padding: 10px 18px;
+      font-size: 14px;
+    }
+
+    .option-label {
+      display: inline-block;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      background: var(--primary-dark);
+      color: #fff;
+      font-size: 12px;
+      margin-right: 10px;
+      font-weight: 600;
+    }
+
+    /* Result */
+    .result-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .result-label {
+      font-size: 15px;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .result-animal {
+      font-size: 72px;
+      margin-bottom: 8px;
+    }
+
+    .result-name {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .result-type {
+      font-size: 14px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .result-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .info-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .info-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--text-light);
+    }
+
+    .traits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .trait {
+      background: #F1FAF5;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .dimension-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .dimension-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .dimension-name {
+      width: 70px;
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .dimension-bar-wrap {
+      flex: 1;
+      height: 10px;
+      background: #EAF4EE;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 0 12px;
+    }
+
+    .dimension-bar {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 5px;
+      transition: width .6s ease;
+    }
+
+    .dimension-score {
+      width: 24px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* History */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .history-item {
+      background: var(--card);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .history-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .history-emoji {
+      font-size: 32px;
+    }
+
+    .history-info .name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .history-info .date {
+      font-size: 12px;
+      color: var(--text-light);
+      margin-top: 2px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-state .emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      opacity: .6;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 200;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--card);
+      width: 100%;
+      max-width: 480px;
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 20px;
+      animation: slideUp .25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-subtitle {
+      font-size: 14px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+    }
+
+    .modal-close {
+      margin-top: 16px;
+    }
+
+    .toast {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(52, 84, 68, .92);
+      color: #fff;
+      padding: 12px 22px;
+      border-radius: 24px;
+      font-size: 14px;
+      z-index: 300;
+      display: none;
+      pointer-events: none;
+    }
+
+    .toast.active {
+      display: block;
+      animation: fadeIn .2s ease;
+    }
+
+    /* Animal answers review */
+    .animals-answer-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .animal-result-section {
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: var(--radius);
+      padding: 16px 12px;
+    }
+
+    .animal-result-section .result-card {
+      margin-bottom: 12px;
+    }
+
+    .animal-result-section .result-card.no-actions {
+      padding-bottom: 22px;
+    }
+
+    .animal-result-section .info-card {
+      margin-bottom: 10px;
+    }
+
+    .animal-result-section .info-card:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Shine card */
+    .shine-card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #F4FBF7 0%, #FFFFFF 100%);
+    }
+    .shine-card .info-title {
+      color: var(--primary-dark);
+    }
+    .modal-shine-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 14px 0 8px;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 430px) {
+      .page { padding: 14px 12px; }
+      .hero { padding: 24px 16px; }
+      .hero-title { font-size: 23px; }
+      .hero-animals { font-size: 22px; }
+      .result-card { padding: 24px 18px; }
+      .result-animal { font-size: 60px; }
+      .result-name { font-size: 25px; }
+      .info-card { padding: 16px 14px; }
+      .mode-card.single { padding: 20px 14px; }
+      .option { padding: 13px 14px; font-size: 14.5px; }
+      .dimension-name { font-size: 13px; }
+      .quiz-progress { margin-bottom: 16px; }
+      .animal-result-section { padding: 12px 8px; }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header class="header" id="header">
+      <span class="back hidden" id="backBtn" onclick="goBack()">‹</span>
+      <span id="headerTitle">动物塑人格测试</span>
+    </header>
+
+    <!-- Home -->
+    <section class="page active" id="homePage">
+      <div class="hero">
+        <div class="hero-title">动物塑人格测试</div>
+        <div class="hero-subtitle">发现你的动物原型</div>
+        <div class="hero-animals">
+          <span>🐶</span><span>🐱</span><span>🦝</span><span>🦊</span><span>🐬</span>
+        </div>
+      </div>
+
+      <div class="section-title">开始测试</div>
+      <div class="mode-card single">
+        <div class="mode-icon">⚡</div>
+        <div class="badge">20题版</div>
+        <div class="mode-name">标准测试</div>
+        <div class="mode-meta">20题 · 3-5分钟</div>
+        <button class="btn btn-primary" style="width:100%" onclick="startQuiz()">开始测试</button>
+      </div>
+
+      <div class="collection-card">
+        <div class="collection-header">
+          <h3>动物图鉴</h3>
+        </div>
+        <div class="collection-grid" id="homeCollectionGrid"></div>
+        <div class="see-all" onclick="showPage('collection')">
+          查看完整图鉴 <span>→</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collection -->
+    <section class="page" id="collectionPage">
+      <h2 class="section-title" style="margin-top:8px">动物图鉴</h2>
+      <p class="collection-subtitle">20种动物原型</p>
+      <div class="collection-page-grid" id="collectionPageGrid"></div>
+    </section>
+
+    <!-- Quiz -->
+    <section class="page" id="quizPage">
+      <div class="quiz-progress">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">1/20</div>
+      </div>
+      <div class="question-card">
+        <div class="question-number" id="questionNumber">问题 1</div>
+        <div class="question-text" id="questionText"></div>
+        <div class="options" id="options"></div>
+        <div class="quiz-nav">
+          <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()" style="display:none">← 上一题</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result -->
+    <section class="page" id="resultPage">
+      <div class="result-card">
+        <div class="result-label">你的动物塑原型</div>
+        <div class="result-animal" id="resultEmoji">🦝</div>
+        <div class="result-name" id="resultName">浣熊</div>
+        <div class="result-type" id="resultType">自由型人格</div>
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="shareResult()">💫 分享好友</button>
+          <button class="btn btn-secondary" onclick="showHistory()">📖 查看历史</button>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-title">✨ 原型解析</div>
+        <div class="info-text" id="resultDesc"></div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-title">🌟 核心特质</div>
+        <div class="traits" id="resultTraits"></div>
+      </div>
+
+      <div class="info-card shine-card">
+        <div class="info-title">🌿 性格闪光点</div>
+        <div class="info-text" id="resultShine"></div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-title">📊 四维度分析</div>
+        <div id="dimensionBars"></div>
+      </div>
+
+      <button class="btn btn-primary" style="margin-bottom:12px" onclick="restart()">再测一次</button>
+      <button class="btn btn-outline" onclick="showPage('home')">返回首页</button>
+    </section>
+
+    <!-- History -->
+    <section class="page" id="historyPage">
+      <h2 class="section-title" style="margin-top:8px">测试历史</h2>
+      <div class="history-list" id="historyList"></div>
+      <div class="empty-state hidden" id="historyEmpty">
+        <div class="emoji">🐾</div>
+        <div>还没有测试记录，快去测一测吧</div>
+      </div>
+      <button class="btn btn-outline" style="margin-top:16px" onclick="showPage('home')">返回首页</button>
+    </section>
+
+    <!-- Animal answers review -->
+    <section class="page" id="animalsAnswerPage">
+      <h2 class="section-title" style="margin-top:8px">20种动物塑原型</h2>
+      <div class="animals-answer-list" id="animalsAnswerList"></div>
+      <button class="btn btn-outline" style="margin-top:16px" onclick="showPage('home')">返回首页</button>
+    </section>
+  </div>
+
+  <!-- Animal detail modal -->
+  <div class="modal-overlay" id="animalModal" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title"><span id="modalEmoji" style="font-size:32px">🦝</span> <span id="modalName">浣熊</span></div>
+      <div class="modal-subtitle" id="modalType">自由型人格</div>
+      <div class="info-text" id="modalDesc" style="margin-bottom:10px"></div>
+      <div class="traits" id="modalTraits"></div>
+      <div class="modal-shine-title">🌿 性格闪光点</div>
+      <div class="info-text" id="modalShine"></div>
+      <button class="btn btn-primary modal-close" onclick="closeModal()">知道了</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Animal data
+    const animals = [
+      { key: 'dog', name: '狗', emoji: '🐶', type: '情感型人格', dims: {E: 20, I: 0, P: 0, F: 0}, desc: '你是温暖又可靠的伙伴。重感情、讲义气，最快乐的事就是和喜欢的人在一起。你在群体中像阳光一样，带给人安全感。', traits: ['忠诚守护', '情感丰富', '热情开朗', '值得信赖'], shine: '你总是第一个察觉到谁不开心，习惯性先照顾周围的人，像自带雷达一样扫过每个人的情绪。你记得朋友随口提的小事，会在深夜回一句"我在"。但请记得，你的温柔从来不是理所当然的义务——你同样值得被珍惜、被回应、被好好对待。累了就靠一靠，想哭就哭出来，你不需要一直做那个撑起全场的人。会照顾人的你，也配得上被照顾，这不是示弱，是你应得的一份安心。' },
+      { key: 'cat', name: '猫', emoji: '🐱', type: '理性型人格', dims: {E: 0, I: 20, P: 0, F: 0}, desc: '你有自己的节奏，喜欢独处但不孤单。你聪明、独立、有品味，不轻易迎合他人，也能在安静中找到快乐。', traits: ['独立自主', '理性思考', '优雅从容', '自我掌控'], shine: '你有自己的节奏，不需要靠热闹来证明存在。你喜欢独处，却不孤单，因为你知道安静里能长出很多东西。你的聪明和品味不是冷漠，是你选择把精力留给值得的事。不轻易迎合别人，不是你难相处，是你太清楚自己要什么。这种清醒有时会显得有点距离，但懂的人会珍惜。允许自己慢下来，也允许别人跟不上，你的从容本身就是一种力量。' },
+      { key: 'wolf', name: '狼', emoji: '🐺', type: '意志型人格', dims: {E: 6, I: 1, P: 12, F: 1}, desc: '你有强烈的目标感和领导力，认准方向就全力以赴。团队中的灵魂人物，值得信赖。', traits: ['目标明确', '坚韧不拔', '领导力强', '忠诚担当'], shine: '你认准的事九头牛拉不回来，这种狠劲是稀缺品，也是你一路走来的底气。你习惯冲在最前面，习惯扛事，习惯在没人兜底时自己顶上。但强大的人也可以喊累，你不必时刻绷着那根弦。偶尔卸下"Leader"的面具，允许自己往后退一步。旁边有人，你也能安心当回被照顾的那个。真正的狼群本就会彼此倚靠，你不是非得永远孤身领头。' },
+      { key: 'lion', name: '狮', emoji: '🦁', type: '意志型人格', dims: {E: 0, I: 0, P: 20, F: 0}, desc: '你自信大方，气场强大，自带主角光环。你有领导力，也懂得照顾身边的人，是天生让人想跟随的存在。', traits: ['王者气场', '自信果敢', '领导能力', '魅力十足'], shine: '你自信大方，气场强大，哪怕不说话也自带主角光环。你习惯扛事，习惯照顾身边的人，是天生的引领者。但请记得，狮子不必永远站在舞台中央。你允许自己疲惫、允许自己脆弱的时候，才是最有力量的时刻。你不需要让所有人都跟随，先把自己照顾好，你的光芒才不会变成消耗。' },
+      { key: 'bear', name: '熊', emoji: '🐻', type: '情感型人格', dims: {E: 10, I: 10, P: 0, F: 0}, desc: '你沉稳、厚道，给人很强的安全感。你喜欢安定的生活节奏，不轻易发火，但一旦行动就充满力量。', traits: ['沉稳可靠', '力量感强', '温和厚道', '保护欲强'], shine: '你像一块稳稳的石头，谁慌了你都在，谁崩了你接住。你把自己的情绪往肚里咽，先去安顿别人。但石头也会累，也需要被抱、被靠、被轻轻托住。别把所有人的情绪都接住，留一点温度给自己。你值得被温柔以待，而不只是去做温暖别人的那个源头。今晚就别当谁的依靠了，当回你自己，蜷起来，好好睡一觉。' },
+      { key: 'rabbit', name: '兔', emoji: '🐰', type: '情感型人格', dims: {E: 10, I: 0, P: 0, F: 10}, desc: '你心思细腻，对环境很敏感。你不喜欢冲突，追求平和安稳。熟悉的人面前，你柔软又可爱。', traits: ['温柔细腻', '敏感体贴', '追求和平', '内心柔软'], shine: '你心思细得像天线，别人一个眼神、一句语气不对，你就接收到了，甚至反复琢磨很久。这不是脆弱，是天赋——你比谁都懂人心。但别把每根天线都对着别人的情绪，那样太消耗了。你的敏感很珍贵，先用来照顾好自己。感到不安就躲进自己的小窝，没关系，不是所有信号都要你回应，你先稳稳地，待在自己舒服的频率里。' },
+      { key: 'hamster', name: '仓鼠', emoji: '🐹', type: '情感型人格', dims: {E: 13, I: 1, P: 3, F: 3}, desc: '你可爱、充满活力，喜欢收集生活中的小确幸。你的快乐很有感染力。', traits: ['活泼可爱', '乐观积极', '热爱生活', '容易满足'], shine: '你最会攒小确幸，一颗糖、一个好天气、一句夸奖，都能让你开心半天，像腮帮子里藏满粮食那样满足。这种"容易满足"不是幼稚，是被生活厚待的能力，是你自带的光。保持你的甜吧，世界需要你这样的小火苗。别因为别人说你"想得少"就不好意思，能把平凡日子过出甜味的人，其实最懂活着这件事。' },
+      { key: 'swan', name: '天鹅', emoji: '🦢', type: '自由型人格', dims: {E: 0, I: 0, P: 0, F: 20}, desc: '你追求高雅与和谐，对感情专一而深情。你有自己的审美和原则，不轻易妥协，但始终温柔。', traits: ['优雅高贵', '审美独特', '专一深情', '追求完美'], shine: '你追求高雅与和谐，对美和感情都有自己的坚持。你专一而深情，不轻易妥协，却始终保持温柔。这份难得的品质，让你在关系里既珍贵又容易被误解为挑剔。但你要知道，守住自己的审美和原则不是错。你不必为了合群而降低标准，真正欣赏你的人，会愿意配合你的节奏，也会懂得珍惜你的深情。' },
+      { key: 'deer', name: '鹿', emoji: '🦌', type: '自由型人格', dims: {E: 9, I: 1, P: 0, F: 10}, desc: '你灵动、好奇，对新鲜事物保持热情。你像森林里的鹿一样，追寻自己的方向。', traits: ['灵动好奇', '向往自由', '直觉敏锐', '富有灵气'], shine: '你好奇、轻盈，永远向着有意思的方向跑，对新鲜事物眼睛发亮。这份灵动是很多人羡慕不来的，你活得不沉。别怕别人说你"飘"、说你不定性，你追的不是风，是你自己真正喜欢的方向。按自己的节奏走，就很好。偶尔停下来嚼嚼路边的草也没关系，你不需要向谁证明自己跑得够快，自在，本来就是你最珍贵的状态。' },
+      { key: 'eagle', name: '鹰', emoji: '🦅', type: '意志型人格', dims: {E: 0, I: 10, P: 10, F: 0}, desc: '你有清晰的目标和强大的执行力。你看得比别人更远，喜欢独立，不盲从，是理智又坚定的远见者。', traits: ['目标明确', '远见卓识', '独立思考', '执行力强'], shine: '你站得高、看得透，乱局里你总是第一个找到出路的那个人，冷静得像事不关己。但鹰也需要落地休息，也需要把翅膀收起来，找个枝头发会儿呆。别把所有事都扛成"战略"、都当成需要拆解的题。偶尔放下规划，什么都不分析，就看着云飘过去。那不是浪费时间，那是你拧紧太久的弦，终于被自己允许松一松。' },
+      { key: 'crow', name: '乌鸦', emoji: '🐦‍⬛', type: '理性型人格', dims: {E: 4, I: 13, P: 3, F: 0}, desc: '你聪明、机警，善于发现别人忽略的细节。你习惯独立思考，不盲从权威。', traits: ['聪明机警', '独立思考', '观察入微', '求真务实'], shine: '你不凑热闹、不盲信，有自己的判断，这年头太难得了。别人一窝蜂往前冲的时候，你停下来看一眼，这叫清醒，不叫怂。你的"机警"不是多疑，是你在认真保护自己。相信你的直觉，也允许自己偶尔不解释。懂的人自然懂，不懂的你费力说也没用。你不需要变得合群才安全，独来独往的你，本身就有自己的秩序。' },
+      { key: 'capybara', name: '水豚', emoji: '🦫', type: '情感型人格', dims: {E: 12, I: 5, P: 3, F: 0}, desc: '你温和、佛系，和谁都能和平相处。你的淡定从容让周围的人都感到放松。', traits: ['温和佛系', '情绪稳定', '包容随和', '相处舒适'], shine: '你是天生的情绪稳定器，谁跟你待着都松一口气，好像再急的事到你这儿都慢下来了。你脾气好、不较劲，是人群里最舒服的那块垫脚石。但请你也记得，佛系不等于没需求，温和也不等于好欺负。你值得被认真对待，不只是当别人的"舒服区"。你有权利说"我不想"、说"我累了"，你的平静很贵，别随便给。' },
+      { key: 'whale', name: '鲸', emoji: '🐋', type: '意志型人格', dims: {E: 7, I: 2, P: 11, F: 0}, desc: '你深邃、富有想象力，内心世界丰富。你不追求表面的热闹，更在意精神层面的共鸣。', traits: ['深沉内敛', '富有想象', '追求深度', '向往辽阔'], shine: '你心里装着一片海，深、静、辽阔，不爱热闹不是孤僻，是你有自己的频率。你享受那种一个人也能很丰盈的状态，像在深海里独自歌唱。别急着"上岸"去迎合谁，你的深度本身就是礼物。慢慢游，没人催你。如果哪天觉得孤独了，也正常——连鲸都会渴望同伴的回声，那不叫脆弱，那叫你终究是温热的、想被听见的。' },
+      { key: 'parrot', name: '鹦鹉', emoji: '🦜', type: '自由型人格', dims: {E: 0, I: 9, P: 1, F: 10}, desc: '你表达欲强、热爱交流，总能带来新鲜有趣的观点。你是社交场合的开心果。', traits: ['表达力强', '幽默风趣', '好奇心旺', '社交达人'], shine: '你一张嘴就点亮气氛，是人群里的小太阳，冷场你来救，尴尬你来圆。大家都喜欢你，因为你让场合变轻了。但太阳也会想躲进云里，你不必时刻在线、时刻有趣。你安静下来的样子，同样值得被喜欢。偶尔不接梗、不活跃，没人会因此离开你，你本来的样子——哪怕有点闷——就足够好，不需要一直燃烧自己来暖场。' },
+      { key: 'octopus', name: '章鱼', emoji: '🐙', type: '意志型人格', dims: {E: 1, I: 6, P: 12, F: 1}, desc: '你多线程、适应力强，能同时处理复杂问题。你的灵活和智慧让人印象深刻。', traits: ['多才多艺', '适应力强', '思维灵活', '善于应变'], shine: '你多线程、反应快，再乱的局都能拆开理顺，八条腕足各管一摊，是天生的解决问题机器。这种"全能"很酷，但也别把所有精力都用来救火、都向外给出去。留一条腕足给自己吧，做点毫无用处的事——发呆、乱画、看鱼缸。你不需要时刻高效，允许自己偶尔"啥也没干成"，那不是荒废，是你终于肯对自己大方一次。' },
+      { key: 'shark', name: '鲨鱼', emoji: '🦈', type: '意志型人格', dims: {E: 0, I: 9, P: 11, F: 0}, desc: '你目标清晰、行动果断。你不浪费时间，做事专注高效，是天生的执行派。', traits: ['目标导向', '果断高效', '专注力强', '执行力强'], shine: '你目标感强到吓人，认准就冲，执行力拉满，像一生都在向前游、不敢停。但 shark 也需要浮上来喘口气，也需要偶尔放慢。赢了不稀奇，能停下来的赢家才稀缺。偶尔松手，不是输，是你终于肯对自己说"够了，今天就到这"。你追的如果是自己的海，那停在哪里，都是你说了算，不必永远绷着那股狠劲。' },
+      { key: 'dolphin', name: '海豚', emoji: '🐬', type: '情感型人格', dims: {E: 12, I: 4, P: 4, F: 0}, desc: '你聪明、友善，喜欢与人建立连接。你的乐观和智慧让你成为人群中的小太阳。', traits: ['聪明友善', '乐观开朗', '善于沟通', '乐于助人'], shine: '你聪明又暖，逗人笑、给人托底，是大家的开心果，也是靠谱的搭档。你总在调节气氛，总在让周围轻一点。但开心果也会累，也会想被人哄、想有人接住自己的情绪。你不必永远做照亮别人的那个，偶尔当回被照亮的，也没关系。你那些没说出口的丧，值得被谁温柔接住。你给过别人那么多光，也配得上被人好好照亮一次。' },
+      { key: 'raccoon', name: '浣熊', emoji: '🦝', type: '自由型人格', dims: {E: 1, I: 1, P: 6, F: 12}, desc: '你机灵、有点小狡黠，动手能力强。你总能用巧办法解决问题，是城市生活里的聪明探索者。', traits: ['机灵聪明', '动手能力强', '善于解决问题', '适应性强'], shine: '你手巧、脑子活，再难的坎都能摸出一条缝，像在废墟里也能翻出宝贝。这种"机灵"是实打实的生存智慧，你从不轻易认输。但别总在解决问题，别把人生过成一场场通关。偶尔也允许自己"搞不定"、允许事情乱糟糟收不了场。你不需要每件事都漂亮收尾，偶尔摊着，也是一种对自己诚实的休息。' },
+      { key: 'meerkat', name: '猫鼬', emoji: '🐿️', type: '理性型人格', dims: {E: 0, I: 12, P: 6, F: 2}, desc: '你机警、有条理，擅长提前发现风险并做好准备。你是团队中靠谱的观察者。', traits: ['机警谨慎', '条理清晰', '风险意识', '踏实可靠'], shine: '你稳、细、靠谱，风险还没来你就看见了，提前把坑填好，是团队里最让人安心的那一个。这种"谨慎"是保护色，不是胆小，是你对在乎的事认真。但别把所有意外都当成威胁，大部分时候，天不会塌。相信你的准备，也给自己松松绑。你警惕了太久，偶尔放下戒备晒个太阳，世界不会趁虚而入，你值得那点毫无防备的安心。' },
+      { key: 'fox', name: '狐', emoji: '🦊', type: '理性型人格', dims: {E: 1, I: 13, P: 3, F: 3}, desc: '你聪慧、有谋略，懂得审时度势。你善于用巧妙的方式达到目标，魅力十足。', traits: ['聪慧机敏', '善于谋略', '魅力十足', '灵活变通'], shine: '你聪慧又迷人，懂得用巧劲，不硬刚、不蛮干，总能在夹缝里走出自己的路。这份灵气很珍贵，是你一路以来的护身符。但狐狸也会想有个窝，想有人看见你卸下谋略后的样子。别把所有关系都当棋盘，别把每句交心都先过了一遍利弊。偶尔卸下算计，真心比套路轻得多，也暖得多。你值得被简单地、不费力地喜欢。' }
+    ];
+
+    const dimNames = { E: '情感 Emotion', I: '理性 Intellect', P: '意志 Power', F: '自由 Freedom' };
+
+    // Question bank: 20 questions from the original mini-program
+    // Verified mapping: A=E, B=I, C=P, D=F (confirmed by all-A test -> 狗/情感型)
+    const questionTemplates = [
+      { text: '如果周围突然一片黑暗，你会：', options: [
+        { text: '点亮灯，让大家安心', dim: 'E' },
+        { text: '等眼睛慢慢适应', dim: 'I' },
+        { text: '摸索前进，先看看情况', dim: 'P' },
+        { text: '享受安静的黑暗', dim: 'F' }
+      ]},
+      { text: '你有一块"记忆橡皮"，你会擦掉：', options: [
+        { text: '一次遗憾的经历', dim: 'E' },
+        { text: '一个忘不掉的人', dim: 'I' },
+        { text: '一件不想提的事', dim: 'P' },
+        { text: '一种让你困扰的情绪', dim: 'F' }
+      ]},
+      { text: '如果人生像游戏，只能输入一个指令，你选：', options: [
+        { text: '重新开始', dim: 'E' },
+        { text: '保存现在', dim: 'I' },
+        { text: '跳过难关', dim: 'P' },
+        { text: '开启隐藏模式', dim: 'F' }
+      ]},
+      { text: '如果能选择一种"永生"，你希望：', options: [
+        { text: '永远被记得', dim: 'E' },
+        { text: '一直能重生', dim: 'I' },
+        { text: '时间停在快乐时刻', dim: 'P' },
+        { text: '不断变成新的自己', dim: 'F' }
+      ]},
+      { text: '你最害怕哪种感觉：', options: [
+        { text: '被误解', dim: 'E' },
+        { text: '被忽视', dim: 'I' },
+        { text: '被限制', dim: 'P' },
+        { text: '被背叛', dim: 'F' }
+      ]},
+      { text: '你的梦里最常出现：', options: [
+        { text: '家或熟悉的人', dim: 'E' },
+        { text: '森林或动物', dim: 'I' },
+        { text: '高楼或夜色', dim: 'P' },
+        { text: '海洋或天空', dim: 'F' }
+      ]},
+      { text: '如果情绪是一款APP，你最常点击：', options: [
+        { text: '分享', dim: 'E' },
+        { text: '编辑', dim: 'I' },
+        { text: '收藏', dim: 'P' },
+        { text: '删除', dim: 'F' }
+      ]},
+      { text: '你觉得"家"的意义是：', options: [
+        { text: '有人陪伴', dim: 'E' },
+        { text: '自由自在', dim: 'I' },
+        { text: '安全感', dim: 'P' },
+        { text: '联系与归属', dim: 'F' }
+      ]},
+      { text: '如果能放大一个感官十倍，你选：', options: [
+        { text: '视觉——想看得更清楚', dim: 'E' },
+        { text: '听觉——想更懂别人的情绪', dim: 'I' },
+        { text: '触觉——感受世界的细节', dim: 'P' },
+        { text: '直觉——提前感知结果', dim: 'F' }
+      ]},
+      { text: '面对自己的阴暗面，你会：', options: [
+        { text: '接受它', dim: 'E' },
+        { text: '分析它', dim: 'I' },
+        { text: '忽略它', dim: 'P' },
+        { text: '改变它', dim: 'F' }
+      ]},
+      { text: '你觉得"知识"的价值在于：', options: [
+        { text: '让人更自信', dim: 'E' },
+        { text: '让事情更有规律', dim: 'I' },
+        { text: '帮助做出更好选择', dim: 'P' },
+        { text: '打开新的想法', dim: 'F' }
+      ]},
+      { text: '如果生命走到终点，你希望它像：', options: [
+        { text: '一场温柔的告别', dim: 'E' },
+        { text: '一段旅程的收尾', dim: 'I' },
+        { text: '一局游戏的闭幕', dim: 'P' },
+        { text: '一场梦自然醒来', dim: 'F' }
+      ]},
+      { text: '在你看来，真正的"性感"是：', options: [
+        { text: '自信', dim: 'E' },
+        { text: '神秘', dim: 'I' },
+        { text: '真诚', dim: 'P' },
+        { text: '不拘一格', dim: 'F' }
+      ]},
+      { text: '如果一种声音能一直留在你心里，你选：', options: [
+        { text: '爱人的声音', dim: 'E' },
+        { text: '风吹叶子的声音', dim: 'I' },
+        { text: '海浪的声音', dim: 'P' },
+        { text: '自己呼吸的声音', dim: 'F' }
+      ]},
+      { text: '你觉得自己更像：', options: [
+        { text: '那个照顾别人的人', dim: 'E' },
+        { text: '那个安静想事的人', dim: 'I' },
+        { text: '那个带头做决定的人', dim: 'P' },
+        { text: '那个充满点子的人', dim: 'F' }
+      ]},
+      { text: '关系结束时，你通常：', options: [
+        { text: '慢慢放下', dim: 'E' },
+        { text: '冷静分析原因', dim: 'I' },
+        { text: '迅速走出来', dim: 'P' },
+        { text: '化痛苦为成长', dim: 'F' }
+      ]},
+      { text: '在一群人里，你更像：', options: [
+        { text: '照顾和组织的人', dim: 'E' },
+        { text: '安静观察的人', dim: 'I' },
+        { text: '策划决策的人', dim: 'P' },
+        { text: '调动气氛的人', dim: 'F' }
+      ]},
+      { text: '遇到突发状况时，你会：', options: [
+        { text: '先安抚别人', dim: 'E' },
+        { text: '想清楚再行动', dim: 'I' },
+        { text: '马上掌控局面', dim: 'P' },
+        { text: '灵活应对情况', dim: 'F' }
+      ]},
+      { text: '你希望别人记住你：', options: [
+        { text: '温暖可靠', dim: 'E' },
+        { text: '聪明有想法', dim: 'I' },
+        { text: '坚定有力', dim: 'P' },
+        { text: '自由有趣', dim: 'F' }
+      ]},
+      { text: '如果用颜色形容你的灵魂，会是：', options: [
+        { text: '温暖的黄色', dim: 'E' },
+        { text: '冷静的蓝色', dim: 'I' },
+        { text: '热烈的橙色', dim: 'P' },
+        { text: '轻盈的粉色', dim: 'F' }
+      ]}
+    ];
+
+    // State
+    let currentMode = 'short';
+    let questions = [];
+    let currentQIndex = 0;
+    let answerHistory = []; // dim chosen per question index
+    let scores = { E: 0, I: 0, P: 0, F: 0 };
+    let history = JSON.parse(localStorage.getItem('animalMbtiHistory') || '[]');
+    let pageStack = [];
+
+    // Init
+    function init() {
+      renderHomeCollection();
+      renderCollectionPage();
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      }
+    }
+
+    function renderHomeCollection() {
+      const grid = document.getElementById('homeCollectionGrid');
+      grid.innerHTML = animals.slice(0, 8).map(a => `
+        <div class="collection-item" onclick="openAnimal('${a.key}')">
+          <span class="emoji">${a.emoji}</span>
+          <span class="name">${a.name}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderCollectionPage() {
+      const grid = document.getElementById('collectionPageGrid');
+      grid.innerHTML = animals.map(a => `
+        <div class="collection-page-item" onclick="openAnimal('${a.key}')">
+          <span class="emoji">${a.emoji}</span>
+          <span class="name">${a.name}</span>
+        </div>
+      `).join('');
+    }
+
+    function showPage(pageId, options = {}) {
+      const pages = ['home', 'collection', 'quiz', 'result', 'history', 'animalsAnswer'];
+      if (!options.replace) pageStack.push(pageId);
+      pages.forEach(p => document.getElementById(p + 'Page').classList.remove('active'));
+      document.getElementById(pageId + 'Page').classList.add('active');
+      updateHeader(pageId);
+      window.scrollTo(0, 0);
+    }
+
+    function updateHeader(pageId) {
+      const titles = { home: '动物塑人格测试', collection: '动物图鉴', quiz: '测试中', result: '测试结果', history: '测试历史', animalsAnswer: '20种动物答案' };
+      document.getElementById('headerTitle').textContent = titles[pageId] || '动物塑人格测试';
+      document.getElementById('backBtn').classList.toggle('hidden', pageId === 'home');
+    }
+
+    function goBack() {
+      if (pageStack.length > 1) {
+        pageStack.pop();
+        const prev = pageStack[pageStack.length - 1];
+        showPage(prev, { replace: true });
+      } else {
+        showPage('home', { replace: true });
+      }
+    }
+
+    function startQuiz() {
+      currentMode = 'short';
+      currentQIndex = 0;
+      answerHistory = [];
+      scores = { E: 0, I: 0, P: 0, F: 0 };
+      questions = buildQuestions();
+      showPage('quiz');
+      renderQuestion();
+    }
+
+    function buildQuestions() {
+      // Exact 20 questions from the original mini-program
+      const qs = questionTemplates.map(tpl => ({
+        text: tpl.text,
+        options: [...tpl.options]
+      }));
+      // Shuffle
+      for (let i = qs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [qs[i], qs[j]] = [qs[j], qs[i]];
+      }
+      return qs;
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQIndex];
+      document.getElementById('progressFill').style.width = ((currentQIndex + 1) / questions.length * 100) + '%';
+      document.getElementById('progressText').textContent = `${currentQIndex + 1}/${questions.length}`;
+      document.getElementById('questionNumber').textContent = `问题 ${currentQIndex + 1}`;
+      document.getElementById('questionText').textContent = q.text;
+      const labels = ['A', 'B', 'C', 'D'];
+      const chosen = answerHistory[currentQIndex];
+      document.getElementById('options').innerHTML = q.options.map((opt, idx) => `
+        <button class="option ${chosen === opt.dim ? 'selected' : ''}" onclick="answer('${opt.dim}')">
+          <span class="option-label">${labels[idx]}</span>${opt.text}
+        </button>
+      `).join('');
+      document.getElementById('prevBtn').style.display = currentQIndex > 0 ? 'inline-block' : 'none';
+    }
+
+    function answer(dim) {
+      const prev = answerHistory[currentQIndex];
+      if (prev === dim) {
+        // same choice, just advance
+      } else {
+        if (prev) scores[prev]--;
+        scores[dim]++;
+        answerHistory[currentQIndex] = dim;
+      }
+      currentQIndex++;
+      if (currentQIndex < questions.length) {
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQIndex > 0) {
+        currentQIndex--;
+        renderQuestion();
+      }
+    }
+
+    function calculateAnimal() {
+      // Pure dimension (all 20 answers in one option) → archetype representative animal
+      const pure = Object.entries(scores).find(([k, v]) => v === 20);
+      if (pure) {
+        const archetypes = { E: 'dog', I: 'cat', P: 'lion', F: 'swan' };
+        const rep = animals.find(a => a.key === archetypes[pure[0]]);
+        if (rep) return rep;
+      }
+      // Exact vector match for measured two-dimension combinations (avoids ambiguity)
+      const vecKey = [scores.E, scores.I, scores.P, scores.F].join(',');
+      const exactMap = {
+        '10,10,0,0': 'bear',    // 10A10B
+        '10,0,0,10': 'rabbit',  // 10A10D
+        '0,10,10,0': 'eagle',   // 10B10C
+        '0,0,10,10': 'eagle',   // 10C10D
+        '0,9,11,0': 'shark'     // 9B11C
+      };
+      if (exactMap[vecKey]) {
+        const ex = animals.find(a => a.key === exactMap[vecKey]);
+        if (ex) return ex;
+      }
+      // 弹性匹配：先按已证实的平局优先级定主导维度（人格类型），
+      // 再在同类动物里按四维向量欧氏距离选最接近的，让相邻得分平滑落到相邻动物，
+      // 保留灰度与弹性，用户看到的结果更像"自己"。
+      const tieOrder = ['E', 'P', 'F', 'I'];
+      const sorted = Object.entries(scores).sort((a, b) => {
+        if (b[1] !== a[1]) return b[1] - a[1];
+        return tieOrder.indexOf(a[0]) - tieOrder.indexOf(b[0]);
+      });
+      const dominant = sorted[0][0];
+      const dominantLabel = dimNames[dominant].split(' ')[0]; // e.g. '情感'
+      const group = animals.filter(a => a.type.startsWith(dominantLabel));
+      const keys = ['E', 'I', 'P', 'F'];
+      let best = group[0], bestDist = Infinity;
+      for (const a of group) {
+        const dist = Math.sqrt(keys.reduce((s, k) => s + Math.pow(scores[k] - a.dims[k], 2), 0));
+        if (dist < bestDist) { bestDist = dist; best = a; }
+      }
+      return best || animals[0];
+    }
+
+    function showResult() {
+      const animal = calculateAnimal();
+      const now = new Date();
+
+      document.getElementById('resultEmoji').textContent = animal.emoji;
+      document.getElementById('resultName').textContent = animal.name;
+      document.getElementById('resultType').textContent = animal.type;
+      document.getElementById('resultDesc').textContent = animal.desc;
+      document.getElementById('resultTraits').innerHTML = animal.traits.map(t => `<div class="trait">${t}</div>`).join('');
+      document.getElementById('resultShine').textContent = animal.shine;
+
+      const maxScore = Math.max(...Object.values(scores), 1);
+      document.getElementById('dimensionBars').innerHTML = Object.entries(dimNames).map(([k, name]) => `
+        <div class="dimension-row">
+          <div class="dimension-name">${name.split(' ')[0]}</div>
+          <div class="dimension-bar-wrap"><div class="dimension-bar" style="width:${scores[k] / maxScore * 100}%"></div></div>
+          <div class="dimension-score">${scores[k]}</div>
+        </div>
+      `).join('');
+
+      // Save history
+      history.unshift({ animalKey: animal.key, date: now.toISOString(), mode: currentMode, scores: { ...scores } });
+      if (history.length > 20) history = history.slice(0, 20);
+      localStorage.setItem('animalMbtiHistory', JSON.stringify(history));
+
+      showPage('result');
+    }
+
+    function restart() {
+      startQuiz();
+    }
+
+    function shareResult() {
+      const name = document.getElementById('resultName').textContent;
+      const type = document.getElementById('resultType').textContent;
+      const text = `我在动物塑人格测试中测出了「${name}」——${type}，快来看看你的动物原型是什么！`;
+      if (navigator.share) {
+        navigator.share({ title: '动物塑人格测试', text, url: location.href }).catch(() => {});
+      } else {
+        copyToClipboard(text + ' ' + location.href);
+      }
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => showToast('已复制结果，快去分享吧'));
+    }
+
+    function showHistory() {
+      const list = document.getElementById('historyList');
+      const empty = document.getElementById('historyEmpty');
+      if (!history.length) {
+        list.innerHTML = '';
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+        list.innerHTML = history.map(h => {
+          const a = animals.find(x => x.key === h.animalKey) || animals[0];
+          const d = new Date(h.date);
+          return `
+            <div class="history-item" onclick="viewHistoryResult('${h.date}')">
+              <div class="history-left">
+                <div class="history-emoji">${a.emoji}</div>
+                <div class="history-info">
+                  <div class="name">${a.name} · ${a.type}</div>
+                  <div class="date">${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} · 20题版</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      showPage('history');
+    }
+
+    function viewHistoryResult(date) {
+      const h = history.find(x => x.date === date);
+      if (!h) return;
+      scores = h.scores;
+      currentMode = h.mode;
+      showResult();
+    }
+
+    function showAnimalAnswers() {
+      const dimMap = { E: '情感 Emotion', I: '理性 Intellect', P: '意志 Power', F: '自由 Freedom' };
+      const dimKeys = ['E', 'I', 'P', 'F'];
+      const maxScore = 20; // 20题制下单维度最高得分=20，与真实得分向量量级一致
+      document.getElementById('animalsAnswerList').innerHTML = animals.map(a => {
+        const bars = dimKeys.map(k => `
+          <div class="dimension-row">
+            <div class="dimension-name">${dimMap[k].split(' ')[0]}</div>
+            <div class="dimension-bar-wrap"><div class="dimension-bar" style="width:${a.dims[k] / maxScore * 100}%"></div></div>
+            <div class="dimension-score">${a.dims[k]}</div>
+          </div>
+        `).join('');
+        return `
+          <div class="animal-result-section">
+            <div class="result-card no-actions">
+              <div class="result-animal">${a.emoji}</div>
+              <div class="result-name">${a.name}</div>
+              <div class="result-type">${a.type}</div>
+            </div>
+            <div class="info-card">
+              <div class="info-title">✨ 原型解析</div>
+              <div class="info-text">${a.desc}</div>
+            </div>
+            <div class="info-card">
+              <div class="info-title">🌟 核心特质</div>
+              <div class="traits">${a.traits.map(t => `<div class="trait">${t}</div>`).join('')}</div>
+            </div>
+            <div class="info-card shine-card">
+              <div class="info-title">🌿 性格闪光点</div>
+              <div class="info-text">${a.shine}</div>
+            </div>
+            <div class="info-card">
+              <div class="info-title">📊 四维度分析</div>
+              ${bars}
+            </div>
+          </div>
+        `;
+      }).join('');
+      showPage('animalsAnswer');
+    }
+
+    function openAnimal(key) {
+      const a = animals.find(x => x.key === key);
+      if (!a) return;
+      document.getElementById('modalEmoji').textContent = a.emoji;
+      document.getElementById('modalName').textContent = a.name;
+      document.getElementById('modalType').textContent = a.type;
+      document.getElementById('modalDesc').textContent = a.desc;
+      document.getElementById('modalTraits').innerHTML = a.traits.map(t => `<div class="trait">${t}</div>`).join('');
+      document.getElementById('modalShine').textContent = a.shine;
+      document.getElementById('animalModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('animalModal').classList.remove('active');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('active');
+      setTimeout(() => t.classList.remove('active'), 2000);
+    }
+
+    // Initial push state
+    pageStack.push('home');
+    init();
+  </script>
+</body>
+</html>
